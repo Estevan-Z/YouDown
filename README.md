@@ -1,33 +1,46 @@
-Descripción Técnica (para GitHub/README):
-"YouDown - Descargador de YouTube en Flask"
-Aplicación web que permite descargar videos de YouTube en formatos MP4 (HD/SD) y MP3. Desarrollada con Python, Flask y yt-dlp, incluye interfaz intuitiva con previsualización de videos, barra de progreso en tiempo real y notificaciones. Ideal para preservar contenido educativo o musical offline.
+# TubeGrabber - YouTube Downloader 🎬➡️📥
 
-Descripción Simple (para usuarios generales):
-"Descarga videos de YouTube fácilmente"
-✔ Conversión a MP3 (audio) y MP4 (video)
-✔ Calidad HD o estándar
-✔ Muestra miniaturas y detalles del video
-✔ Progreso de descarga en tiempo real
-✔ Interfaz limpia y sin anuncios
+![Python](https://img.shields.io/badge/Python-3.8+-blue?logo=python)
+![Flask](https://img.shields.io/badge/Flask-2.0+-lightgrey?logo=flask)
+![yt-dlp](https://img.shields.io/badge/yt--dlp-Latest-orange)
 
-Descripción Promocional (para demostración):
-"¡Tu asistente de descargas de YouTube!
-¿Necesitas guardar un tutorial, música o video favorito? Con TubeGrabber puedes:
+A Flask web application to download YouTube videos as MP3 (audio) or MP4 (video) files with preview and real-time progress.
 
-Descargar en 1 clic
+## ✨ Features
+- **Download formats**: MP3 (audio) and MP4 (HD/SD video)
+- **Video preview**: Thumbnail, duration, and channel info
+- **Real-time progress**: Visual download progress bar
+- **Responsive UI**: Works on mobile and desktop
+- **Notifications**: Download completion alerts
+- **Secure**: Temporary file handling
 
-Elegir entre MP3 (audio) o MP4 (video HD)
+## 🚀 Quick Start
+1. Clone the repo:
+```bash
+git clone https://github.com/Estevan-Z/YouDown.git
+cd YouDown
 
-Ver el progreso mientras se descarga
 
-Nombre automático del archivo
-¡Rápido, seguro y sin complicaciones! 🚀"
+### Additional recommendations:
 
-Características clave para destacar:
-Tecnología: Python + Flask + yt-dlp
+1. Create a `screenshots` folder and add actual screenshots of your interface (replace `interface.png`)
 
-Interfaz: Responsive (funciona en móviles y desktop)
+2. For a complete project, make sure you also have:
+- A `requirements.txt` file with all dependencies
+- A `.gitignore` file for Python/Flask projects
+- A `LICENSE` file (MIT recommended for open source)
 
-Seguridad: No almacena videos (se eliminan tras descargar)
+3. For better formatting:
+- Use relative paths for screenshots (`./screenshots/interface.png`)
+- Keep line length under 100 characters
+- Use consistent emoji styling
 
-Extra: Animaciones de carga y notificaciones
+This README provides:
+- Clear installation instructions
+- Feature highlights
+- Technology transparency
+- Visual demonstration
+- Legal disclaimer
+- Proper attribution
+
+Would you like me to adjust any specific section or add more technical details?
