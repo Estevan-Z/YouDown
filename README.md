@@ -14,13 +14,8 @@ A Flask web application to download YouTube videos as MP3 (audio) or MP4 (video)
 - **Notifications**: Download completion alerts
 - **Secure**: Temporary file handling
 
-## 🚀 Quick Start
-1. Clone the repo:
-```bash
-git clone https://github.com/Estevan-Z/YouDown.git
-cd YouDown
 
-🛠️ Tech Stack
+## 🛠️ Tech Stack
 Backend: Python + Flask
 
 YouTube DL: yt-dlp
@@ -31,7 +26,14 @@ Icons: Font Awesome
 
 ## 📸 Interfaz de la aplicación
 
-![Vista previa de TubeGrabber](assets/image.png)
+!(assets/image.png)
 
 ⚠️ Disclaimer
 This project is for educational purposes only. Please only download content you have permission to use offline.
+
+## 🚀 Quick Start
+1. Clone the repo:
+```bash
+git clone https://github.com/Estevan-Z/YouDown.git
+cd YouDown
+
