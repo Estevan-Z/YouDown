@@ -213,3 +213,98 @@ button[type="submit"]:hover {
         grid-template-columns: 1fr;
     }
 }
+
+.spinner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+}
+
+.spinner.hidden {
+    display: none;
+}
+
+.spinner > div {
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 100%;
+    display: inline-block;
+    margin: 0 2px;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+    animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+    animation-delay: -0.16s;
+}
+
+@keyframes sk-bouncedelay {
+    0%, 80%, 100% { 
+        transform: scale(0);
+    } 40% { 
+        transform: scale(1.0);
+    }
+}
+
+button[type="submit"].loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+button[type="submit"].loading #btn-text {
+    margin-right: 8px;
+}
+
+.progress-container {
+    display: none;
+    margin-top: 20px;
+    background: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #4CAF50;
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.3s;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+}
+
+.download-status {
+    margin-top: 5px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 1000;
+    animation: fadeIn 0.5s, fadeOut 0.5s 4.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
+}
