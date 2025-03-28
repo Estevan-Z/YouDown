@@ -26,7 +26,7 @@ Icons: Font Awesome
 
 ## 📸 Interfaz de la aplicación
 
-(assets/image.png)
+![Image](https://github.com/user-attachments/assets/ff9ab817-d338-43c5-bbf4-b28cb52b5d23)
 
 ⚠️ Disclaimer
 This project is for educational purposes only. Please only download content you have permission to use offline.
