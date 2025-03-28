@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1><i class="fab fa-tiktok"></i> Descargador de TikTok</h1>
+    <p class="description">Descarga videos de TikTok en alta calidad (MP4)</p>
+    
+    <form method="POST" class="input-group">
+        <input 
+            type="text" 
+            name="url" 
+            placeholder="Ej: https://www.tiktok.com/@usuario/video/123456789 o https://vt.tiktok.com/ABC123" 
+            required
+            value="{{ request.form.url if request.form.url else '' }}"
+            id="tiktok-url"
+        >
+        <button type="submit" name="analizar" id="analyze-btn">
+            <span id="btn-text">Analizar</span>
+            <div id="spinner" class="spinner hidden">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    {% for category, message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% if video_info %}
+    <div class="video-info">
+        <div class="divider"></div>
+        
+        <div class="video-preview">
+            {% if video_info.thumbnail %}
+            <img src="{{ video_info.thumbnail }}" alt="Miniatura del video" class="video-thumbnail" id="tiktok-thumbnail">
+            {% endif %}
+            <div class="video-details">
+                <h2 class="video-title">{{ video_info.titulo }}</h2>
+                <p class="video-meta">
+                    <strong>Duración:</strong> 
+                    {% set minutos = video_info.duracion // 60 %}
+                    {% set segundos = video_info.duracion % 60 %}
+                    {{ "%02d:%02d"|format(minutos, segundos) }}
+                </p>
+                <p class="video-meta"><strong>Creador:</strong> {{ video_info.canal }}</p>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h3 class="download-options">Opciones de descarga:</h3>
+        
+        <form method="POST" id="download-form">
+            <input type="hidden" name="url" value="{{ request.form.url }}">
+            
+            <div class="options-container">
+                <div class="option active" id="mp4-option">
+                    <i class="fas fa-video"></i>
+                    <span>MP4 - Máxima calidad</span>
+                    <input type="radio" name="formato" value="mp4" checked hidden>
+                </div>
+            </div>
+            
+            <button type="submit" name="descargar" class="download-btn tiktok-download-btn" id="download-btn">
+                <i class="fas fa-download"></i> Descargar Video
+            </button>
+        </form>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar">0%</div>
+            <div class="download-status" id="downloadStatus">Preparando descarga...</div>
+        </div>
+    </div>
+    {% endif %}
+
+    <script>
+        document.getElementById('tiktok-url').addEventListener('input', function(e) {
+            const url = e.target.value;
+            const isTikTokUrl = (url.includes('tiktok.com') || url.includes('vt.tiktok.com'));
+            
+            if (isTikTokUrl) {
+                if (url.includes('www.tiktok.com') && !url.includes('/video/')) {
+                    this.setCustomValidity('Por favor ingresa un enlace directo a un video de TikTok');
+                } else {
+                    this.setCustomValidity('');
+                }
+            } else if (url) {
+                this.setCustomValidity('Por favor ingresa una URL válida de TikTok');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        document.getElementById('download-form')?.addEventListener('submit', function() {
+            const progressContainer = document.getElementById('progressContainer');
+            progressContainer.style.display = 'block';
+            setTimeout(checkProgress, 1000);
+        });
+
+        function checkProgress() {
+            fetch('/progress')
+                .then(response => response.json())
+                .then(data => {
+                    const progressBar = document.getElementById('progressBar');
+                    const downloadStatus = document.getElementById('downloadStatus');
+                    
+                    if (data.status === 'downloading' || data.status === 'starting') {
+                        progressBar.style.width = data.percentage;
+                        progressBar.textContent = data.percentage;
+                        downloadStatus.textContent = 'Descargando...';
+                        setTimeout(checkProgress, 1000);
+                    }
+                    else if (data.status === 'finished') {
+                        progressBar.style.width = '100%';
+                        progressBar.textContent = '100%';
+                        downloadStatus.textContent = 'Descarga completada!';
+                    }
+                    else if (data.status === 'error') {
+                        downloadStatus.textContent = 'Error en la descarga';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al verificar progreso:', error);
+                });
+        }
+    </script>
+{% endblock %}

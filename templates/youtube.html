@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1><i class="fab fa-youtube"></i> Descargador de YouTube</h1>
+    <p class="description">Convierte videos de YouTube a MP3 o MP4</p>
+    
+    <form method="POST" class="input-group">
+        <input 
+            type="text" 
+            name="url" 
+            placeholder="https://youtu.be/..." 
+            required
+            value="{{ request.form.url if request.form.url else '' }}"
+        >
+        <button type="submit" name="analizar" id="analyze-btn">
+            <span id="btn-text">Analizar</span>
+            <div id="spinner" class="spinner hidden">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    {% for category, message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% if video_info %}
+    <div class="video-info">
+        <div class="divider"></div>
+        
+        <div class="video-preview">
+            {% if video_info.thumbnail %}
+            <img src="{{ video_info.thumbnail }}" alt="Miniatura del video" class="video-thumbnail">
+            {% endif %}
+            <div class="video-details">
+                <h2 class="video-title">{{ video_info.titulo }}</h2>
+                <p class="video-meta">
+                    <strong>Duración:</strong> 
+                    {% set minutos = video_info.duracion // 60 %}
+                    {% set segundos = video_info.duracion % 60 %}
+                    {{ "%02d:%02d"|format(minutos, segundos) }}
+                </p>
+                <p class="video-meta"><strong>Subido por:</strong> {{ video_info.canal }}</p>
+            </div>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h3 class="download-options">Opciones de descarga:</h3>
+        
+        <form method="POST">
+            <input type="hidden" name="url" value="{{ request.form.url }}">
+            
+            <div class="options-container">
+                <div class="option" onclick="document.getElementById('mp4_hd').click()">
+                    <input id="mp4_hd" name="formato" type="radio" value="mp4" class="hidden" checked>
+                    <i class="fas fa-film"></i>
+                    <span>MP4 (Alta calidad)</span>
+                </div>
+                
+                <div class="option" onclick="document.getElementById('mp4_sd').click()">
+                    <input id="mp4_sd" name="formato" type="radio" value="mp4" class="hidden">
+                    <i class="fas fa-film"></i>
+                    <span>MP4 (Calidad media)</span>
+                    <input type="hidden" name="calidad" value="480" disabled>
+                </div>
+                
+                <div class="option" onclick="document.getElementById('mp3').click()">
+                    <input id="mp3" name="formato" type="radio" value="mp3" class="hidden">
+                    <i class="fas fa-music"></i>
+                    <span>MP3 (Solo audio)</span>
+                </div>
+            </div>
+            
+            <button type="submit" name="descargar" class="download-btn" id="download-btn">
+                <i class="fas fa-download"></i> Descargar
+            </button>
+        </form>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar">0%</div>
+            <div class="download-status" id="downloadStatus">Preparando descarga...</div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
